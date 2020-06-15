@@ -4,6 +4,7 @@
 Many of these descriptions and examples come from various resources (see [Acknowledgements](#acknowledgements) section), summarized in my own words.
 
 C++14 includes the following new language features:
+- [digit separators](#digit-separators)
 - [binary literals](#binary-literals)
 - [generic lambda expressions](#generic-lambda-expressions)
 - [lambda capture initializers](#lambda-capture-initializers)
@@ -20,7 +21,19 @@ C++14 includes the following new library features:
 
 ## C++14 Language Features
 
+### Digit Separators
+[N3781](https://wg21.link/n3781)
+
+Numeric literals may now use `'` as a separator.
+```c++
+1`000`000 // == 1000000
+0xA1'B2'C3 // == 0xA1B2C3 
+0b1111'1111 // == 255
+```
+
 ### Binary literals
+[N3472](https://wg21.link/n3472)
+
 Binary literals provide a convenient way to represent a base-2 number.
 It is possible to separate digits with `'`.
 ```c++
@@ -29,6 +42,7 @@ It is possible to separate digits with `'`.
 ```
 
 ### Generic lambda expressions
+[N3649](https://wg21.link/n3649)
 C++14 now allows the `auto` type-specifier in the parameter list, enabling polymorphic lambdas.
 ```c++
 auto identity = [](auto x) { return x; };
@@ -36,7 +50,7 @@ int three = identity(3); // == 3
 std::string foo = identity("foo"); // == "foo"
 ```
 
-### Lambda capture initializers
+### Lambda capture initializers [N3648](https://wg21.link/n3648)
 This allows creating lambda captures initialized with arbitrary expressions. The name given to the captured value does not need to be related to any variables in the enclosing scopes and introduces a new name inside the lambda body. The initializing expression is evaluated when the lambda is _created_ (not when it is _invoked_).
 ```c++
 int factory(int i) { return i * 10; }
@@ -69,7 +83,7 @@ auto f = [&r = x, x = x * 10] {
 f(); // sets x to 2 and returns 12
 ```
 
-### Return type deduction
+### Return type deduction [N3638](https://wg21.link/n3638)
 Using an `auto` return type in C++14, the compiler will attempt to deduce the type for you. With lambdas, you can now deduce its return type using `auto`, which makes returning a deduced reference or rvalue reference possible.
 ```c++
 // Deduce return type as `int`.
@@ -89,7 +103,7 @@ int y = 123;
 int& z = g(y); // reference to `y`
 ```
 
-### decltype(auto)
+### decltype(auto) [N3638](https://wg21.link/n3638)
 The `decltype(auto)` type-specifier also deduces a type like `auto` does. However, it deduces return types while keeping their references and cv-qualifiers, while `auto` will not.
 ```c++
 const int x = 0;
@@ -124,7 +138,7 @@ static_assert(std::is_same<const int&, decltype(g(x))>::value == 1);
 
 See also: `decltype` (C++11).
 
-### Relaxing constraints on constexpr functions
+### Relaxing constraints on constexpr functions [N3652](https://wg21.link/n3652)
 In C++11, `constexpr` function bodies could only contain a very limited set of syntaxes, including (but not limited to): `typedef`s, `using`s, and a single `return` statement. In C++14, the set of allowable syntaxes expands greatly to include the most common syntax such as `if` statements, multiple `return`s, loops, etc.
 ```c++
 constexpr int factorial(int n) {
@@ -137,7 +151,7 @@ constexpr int factorial(int n) {
 factorial(5); // == 120
 ```
 
-### Variable templates
+### Variable templates [N3651](https://wg21.link/n3651)
 C++14 allows variables to be templated:
 
 ```c++
@@ -147,7 +161,7 @@ template<class T>
 constexpr T e  = T(2.7182818284590452353);
 ```
 
-### [[deprecated]] attribute
+### [[deprecated]] attribute [N3760](https://wg21.link/n3760)
 C++14 introduces the `[[deprecated]]` attribute to indicate that a unit (function, class, etc) is discouraged and likely yield compilation warnings. If a reason is provided, it will be included in the warnings.
 ```c++
 [[deprecated]]
@@ -158,8 +172,16 @@ void legacy_method();
 
 ## C++14 Library Features
 
-### User-defined literals for standard library types
-New user-defined literals for standard library types, including new built-in literals for `chrono` and `basic_string`. These can be `constexpr` meaning they can be used at compile-time. Some uses for these literals include compile-time integer parsing, binary literals, and imaginary number literals.
+### User-defined literals for standard library types [N3642](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3642.pdf).[N3779](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3779.pdf)
+New user-defined literals for standard library types, including new built-in literals for `chrono`, `basic_string`, and `complex`. These can be `constexpr` meaning they can be used at compile-time. Some uses for these literals include compile-time integer parsing, binary literals, and imaginary number literals.  
+
+For `std::string_literals`, the suffix `s` creates a `std::string`.
+```c++
+using namespace std::string_literals;
+auto msg = "hello"s + " world"; // msg is a std::string
+```
+
+For `std::chrono_literals`, the suffixes `h`,`min`,`s`,`ms`,`us`,`ns` denote duration values of the corresponding types hours, minutes, seconds, miliseconds, microseconds, and nanoseconds respectively if they are applied to integral literals.  Floating point literals become a `duration` with unspecified floating point representation.
 ```c++
 using namespace std::chrono_literals;
 auto day = 24h;
@@ -167,9 +189,18 @@ day.count(); // == 24
 std::chrono::duration_cast<std::chrono::minutes>(day).count(); // == 1440
 ```
 
-### Compile-time integer sequences
+For `std::complex_literals`, the suffixes `il,`i`,`if` create `std::complex<T>` where T corresponds in that same order to `long double`, `double, and `float`.
+```c++
+using namespace std::complex_literals
+auto cmplx = 1.0+2i; // == std::complex<double>(1,2)
+auto lcmplx = 3.0l+4il; // == std::complex<long double>(3,4)
+```
+
+### Compile-time integer sequences [N3658](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3658.html)
 The class template `std::integer_sequence` represents a compile-time sequence of integers. There are a few helpers built on top:
 * `std::make_integer_sequence<T, N>` - creates a sequence of `0, ..., N - 1` with type `T`.
+* `std::index_sequence<N>` - is `std::integer_sequence<std::size_t, N>`.
+* `std::make_index_sequence<N>` - is `std::make_integer_sequence<std::size_t, N>`.
 * `std::index_sequence_for<T...>` - converts a template parameter pack into an integer sequence.
 
 Convert an array into a tuple:
@@ -185,7 +216,7 @@ decltype(auto) a2t(const std::array<T, N>& a) {
 }
 ```
 
-### std::make_unique
+### std::make_unique [N3656](https://wg21.link/n3656)
 `std::make_unique` is the recommended way to create instances of `std::unique_ptr`s due to the following reasons:
 * Avoid having to use the `new` operator.
 * Prevents code repetition when specifying the underlying type the pointer shall hold.
@@ -209,6 +240,7 @@ See the C++11 section on smart pointers for more information on `std::unique_ptr
 * [Jason Turner's C++ Weekly](https://www.youtube.com/channel/UCxHAlbZQNFU2LgEtiqd2Maw) - nice collection of C++-related videos.
 * [What can I do with a moved-from object?](http://stackoverflow.com/questions/7027523/what-can-i-do-with-a-moved-from-object)
 * [What are some uses of decltype(auto)?](http://stackoverflow.com/questions/24109737/what-are-some-uses-of-decltypeauto)
+* [Changes between C++11 and C++14](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1319r0.html)
 * And many more SO posts I'm forgetting...
 
 ## Author
