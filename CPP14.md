@@ -18,6 +18,7 @@ C++14 includes the following new library features:
 - [user-defined literals for standard library types](#user-defined-literals-for-standard-library-types)
 - [compile-time integer sequences](#compile-time-integer-sequences)
 - [std::make_unique](#stdmake_unique)
+- [std::exchange](#stdexchange)
 
 ## C++14 Language Features
 
@@ -250,6 +251,23 @@ foo(std::make_unique<T>(), function_that_throws(), std::make_unique<T>());
 ```
 
 See the C++11 section on smart pointers for more information on `std::unique_ptr` and `std::shared_ptr`.
+
+### std::exchange
+[N3668](https://wg21.link/n3668)
+
+`#include <utility>`
+
+Assigns the first paramater from the second, and returns the first, with move and forward semantics.
+```c++
+template<typename T, typename U=T>
+T exchange(T& obj, U&& new_val) {
+  T old_val = std::move(obj);
+  obj = std::forward<U>(new_val);
+  return old_val;
+}
+```
+
+
 
 ## Acknowledgements
 * [cppreference](http://en.cppreference.com/w/cpp) - especially useful for finding examples and documentation of new library features.
