@@ -21,6 +21,7 @@ C++14 includes the following new library features:
 - [std::exchange](#stdexchange)
 - [transparent comparators](#transparent-comparators)
 - [std::shared_timed_mutex and std::shared_lock](#stdshared_timed_mutex-and-stdshared_lock)
+- [std::quoted strings](#stdquoted-strings)
 
 ## C++14 Language Features
 
@@ -292,6 +293,20 @@ std::shared_timed_mutex mut;
 std::shared_lock<std::shared_timed_mutex> read_lock(mut);
 // read/traverse data guarded by mut
 read_lock.unlock();
+```
+
+### std::quoted strings
+[N3654](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3654.html)
+
+Use std::quoted to read and write strings delimited by `"`(by default) and escapes the delimiter and escape character within the output with a `\`(by default), to preserve whitespace in string I/O.
+
+```c++
+std::stringstream ss;
+const char *output = R"(I said "Hello!")";
+ss << std::quoted( output );
+std::string input;
+ss >> std::quoted( input );
+assert( input == output );
 ```
 
 ## Acknowledgements
