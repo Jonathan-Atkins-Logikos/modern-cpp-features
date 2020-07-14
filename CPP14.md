@@ -20,6 +20,7 @@ C++14 includes the following new library features:
 - [std::make_unique](#stdmake_unique)
 - [std::exchange](#stdexchange)
 - [transparent comparators](#transparent-comparators)
+- [std::shared_timed_mutex and std::shared_lock](#stdshared-timed-mutex-and-stdshared-lock)
 
 ## C++14 Language Features
 
@@ -271,14 +272,27 @@ T exchange(T& obj, U&& new_val) {
 ### Transparent Comparators
 [N3657](https://wg21.link/n3657)
 
-std comparators now can have pass throughs to avoid converting types to pass to them, such as `const char*` conversions to `std::string` for such code:
+std comparators now can have pass throughs to avoid implicit contrustion of types to pass to them, such as the `const char*` conversion to `std::string` is now avoided.
 ```c++
 std::set stuff{"dog", "cat", "mouse"};
 auto pos = stuff.find("cat") ) // the const char* is passed directly to the find() 
                                // and the std::less that is used internally
                                // without creating any new std::string
 ```
-the implicit contruction of a temporary std::string can be skipped.
+the implicit contruction of a temporary `std::string` can be skipped.
+
+### std::shared_timed_mutex and std::shared_lock
+[N3659](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3659.html),
+[N3891](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n3891.htm)
+
+C++14 adds a type of mutex that is sharable (multiple theads can lock at same time) also able to timeout while trying to lock it.  Use the new `std::shared_lock` to allow shared locking across threads, e.g. for read-only access.  Use `std::unique_lock` for an exclusive lock, e.g. for alterations.
+
+```c++
+std::shared_timed_mutex mut;
+std::shared_lock<std::shared_timed_mutex> read_lock(mut);
+// read/traverse data guarded by mut
+read_lock.unlock();
+```
 
 ## Acknowledgements
 * [cppreference](http://en.cppreference.com/w/cpp) - especially useful for finding examples and documentation of new library features.
