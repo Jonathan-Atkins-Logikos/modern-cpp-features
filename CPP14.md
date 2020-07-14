@@ -14,6 +14,7 @@ C++14 includes the following new language features:
 - [variable templates](#variable-templates)
 - [\[\[deprecated\]\] attribute](#deprecated-attribute)
 - [constexpr member functions are no longer const](#constexpr-member-functions-are-no-longer-const)
+- [class with initializers may be aggregate](#class-with-initializers-may-be-aggregate)
 
 C++14 includes the following new library features:
 - [user-defined literals for standard library types](#user-defined-literals-for-standard-library-types)
@@ -193,6 +194,18 @@ void legacy_method();
 [N3669](https://wg21.link/n3669)
 
 constexpr member functions are no longer implicitly const.  constexpr data members are still const.
+
+### Class with initializers may be aggregate
+[N3653](https://wg21.link/n3653)
+
+A class with default member initializers may now be an aggregate
+```c++
+struct X {
+  int a;
+  int b = 10;
+};
+X val = { 5 };
+```
 
 ## C++14 Library Features
 
