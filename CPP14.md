@@ -13,6 +13,7 @@ C++14 includes the following new language features:
 - [relaxing constraints on constexpr functions](#relaxing-constraints-on-constexpr-functions)
 - [variable templates](#variable-templates)
 - [\[\[deprecated\]\] attribute](#deprecated-attribute)
+- [constexpr member functions are no longer const](#constexpr-member-functions-are-no-longer-const)
 
 C++14 includes the following new library features:
 - [user-defined literals for standard library types](#user-defined-literals-for-standard-library-types)
@@ -187,6 +188,11 @@ void old_method();
 [[deprecated("Use new_method instead")]]
 void legacy_method();
 ```
+
+### constexpr member functions are no longer const
+[N3669](https://wg21.link/n3669)
+
+constexpr member functions are no longer implicitly const.  constexpr data members are still const.
 
 ## C++14 Library Features
 
