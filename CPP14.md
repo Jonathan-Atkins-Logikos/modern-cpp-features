@@ -20,7 +20,7 @@ C++14 includes the following new library features:
 - [std::make_unique](#stdmake_unique)
 - [std::exchange](#stdexchange)
 - [transparent comparators](#transparent-comparators)
-- [std::shared_timed_mutex and std::shared_lock](#stdshared-timed-mutex-and-stdshared-lock)
+- [std::shared_timed_mutex and std::shared_lock](#stdshared_timed_mutex-and-stdshared_lock)
 
 ## C++14 Language Features
 
