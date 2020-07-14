@@ -91,7 +91,8 @@ f(); // sets x to 2 and returns 12
 ```
 
 ### Return type deduction
-[N3638](https://wg21.link/n3638)
+[N3638](https://wg21.link/n3638),
+[CWG975](http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_defects.html#975)
 
 Using an `auto` return type in C++14, the compiler will attempt to deduce the type for you. With lambdas, you can now deduce its return type using `auto`, which makes returning a deduced reference or rvalue reference possible.
 ```c++
