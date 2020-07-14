@@ -8,6 +8,7 @@ C++14 includes the following new language features:
 - [binary literals](#binary-literals)
 - [generic lambda expressions](#generic-lambda-expressions)
 - [lambda capture initializers](#lambda-capture-initializers)
+- [lambda default arguments](#lambda-default-arguments)
 - [return type deduction](#return-type-deduction)
 - [decltype(auto)](#decltypeauto)
 - [relaxing constraints on constexpr functions](#relaxing-constraints-on-constexpr-functions)
@@ -90,6 +91,16 @@ auto f = [&r = x, x = x * 10] {
   return r + x;
 };
 f(); // sets x to 2 and returns 12
+```
+
+### Lambda default arguments
+[CWG974](https://wg21.link/cwg974)
+
+Lambdas can now have defaulted arguments, like any other function.
+```c++
+auto space_out = [](size_t i=1){ return std::string(i*4, ' ')};
+std::cout << space_out() << "Hello" << std::endl    // 4 spaces in output
+          << space_out(2) << "There!" << std::endl; // 8 spaces in output
 ```
 
 ### Return type deduction
