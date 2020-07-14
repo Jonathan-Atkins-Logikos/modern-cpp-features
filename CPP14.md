@@ -19,6 +19,7 @@ C++14 includes the following new library features:
 - [compile-time integer sequences](#compile-time-integer-sequences)
 - [std::make_unique](#stdmake_unique)
 - [std::exchange](#stdexchange)
+- [transparent comparators](#transparent-comparators)
 
 ## C++14 Language Features
 
@@ -267,7 +268,17 @@ T exchange(T& obj, U&& new_val) {
 }
 ```
 
+### Transparent Comparators
+[N3657](https://wg21.link/n3657)
 
+std comparators now can have pass throughs to avoid converting types to pass to them, such as `const char*` conversions to `std::string` for such code:
+```c++
+std::set stuff{"dog", "cat", "mouse"};
+auto pos = stuff.find("cat") ) // the const char* is passed directly to the find() 
+                               // and the std::less that is used internally
+                               // without creating any new std::string
+```
+the implicit contruction of a temporary std::string can be skipped.
 
 ## Acknowledgements
 * [cppreference](http://en.cppreference.com/w/cpp) - especially useful for finding examples and documentation of new library features.
