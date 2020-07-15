@@ -16,6 +16,7 @@ C++14 includes the following new language features:
 - [\[\[deprecated\]\] attribute](#deprecated-attribute)
 - [constexpr member functions are no longer const](#constexpr-member-functions-are-no-longer-const)
 - [class with initializers may be aggregate](#class-with-initializers-may-be-aggregate)
+- [sized delete](#sized-delete)
 
 C++14 includes the following new library features:
 - [user-defined literals for standard library types](#user-defined-literals-for-standard-library-types)
@@ -216,6 +217,16 @@ struct X {
   int b = 10;
 };
 X val = { 5 };
+```
+
+### Sized delete
+[N3778](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3778.html)
+
+Added the global delete operators with size.  Classes already had them, static.  These are used when class has none.
+
+```c++
+void operator delete(void*, std::size_t) noexcept;
+void operator delete[](void*, std::size_t) noexcept;
 ```
 
 ## C++14 Library Features
