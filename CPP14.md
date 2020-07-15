@@ -26,6 +26,7 @@ C++14 includes the following new library features:
 - [transparent comparators](#transparent-comparators)
 - [std::shared_timed_mutex and std::shared_lock](#stdshared_timed_mutex-and-stdshared_lock)
 - [std::quoted strings](#stdquoted-strings)
+- [addressing std::tuple by type](#addressing-stdtuple-by-type)
 
 ## C++14 Language Features
 
@@ -349,6 +350,16 @@ ss << std::quoted( output );
 std::string input;
 ss >> std::quoted( input );
 assert( input == output );
+```
+
+### Addressing std::tuple by type
+
+You may `std::get<typename>` from a `std::tuple` where the typename exists only once in the tuple.
+
+```c++
+std::tuple<int,std::string,std::string> a_tuple{1,"hello","world"};
+std::get<int>(a_tuple); // yields the int of the tuple, which is 1
+std::get<std::string>(a_tuple); // error, more than one std::string in a_tuple
 ```
 
 ## Acknowledgements
