@@ -28,6 +28,8 @@ C++14 includes the following new library features:
 - [std::quoted strings](#stdquoted-strings)
 - [addressing std::tuple by type](#addressing-stdtuple-by-type)
 
+[Minor Changes](#minor-changes)
+
 ## C++14 Language Features
 
 ### Digit Separators
@@ -303,7 +305,7 @@ See the C++11 section on smart pointers for more information on `std::unique_ptr
 
 `#include <utility>`
 
-Assigns the first paramater from the second, and returns the first, with move and forward semantics.
+Assigns the first parameter from the second, and returns the first, with move and forward semantics.
 ```c++
 template<typename T, typename U=T>
 T exchange(T& obj, U&& new_val) {
@@ -318,18 +320,18 @@ T exchange(T& obj, U&& new_val) {
 
 std comparators now can have pass throughs to avoid implicit contrustion of types to pass to them, such as the `const char*` conversion to `std::string` is now avoided.
 ```c++
-std::set stuff{"dog", "cat", "mouse"};
+std::set<std::string> stuff{"dog", "cat", "mouse"};
 auto pos = stuff.find("cat") ) // the const char* is passed directly to the find() 
                                // and the std::less that is used internally
                                // without creating any new std::string
 ```
-the implicit contruction of a temporary `std::string` can be skipped.
+the implicit contruction of a temporary `std::string` can/will be skipped.
 
 ### std::shared_timed_mutex and std::shared_lock
 [N3659](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3659.html),
 [N3891](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n3891.htm)
 
-C++14 adds a type of mutex that is sharable (multiple theads can lock at same time) also able to timeout while trying to lock it.  Use the new `std::shared_lock` to allow shared locking across threads, e.g. for read-only access.  Use `std::unique_lock` for an exclusive lock, e.g. for alterations.
+C++14 adds a type of mutex that is sharable (multiple threads can lock at same time) also able to timeout while trying to lock it.  Use the new `std::shared_lock` to allow shared locking across threads, e.g. for read-only access.  Use `std::unique_lock` for an exclusive lock, e.g. for alterations.
 
 ```c++
 std::shared_timed_mutex mut;
@@ -358,9 +360,38 @@ You may `std::get<typename>` from a `std::tuple` where the typename exists only 
 
 ```c++
 std::tuple<int,std::string,std::string> a_tuple{1,"hello","world"};
-std::get<int>(a_tuple); // yields the int of the tuple, which is 1
-std::get<std::string>(a_tuple); // error, more than one std::string in a_tuple
+audo idx = std::get<int>(a_tuple); // yields the int of the tuple, which is 1
+auto str = std::get<std::string>(a_tuple); // error, more than one std::string in a_tuple
 ```
+
+## Minor Changes
+
+- [CWG1288](https://wg21.link/cwg1288)<br/>
+  ```c++
+  int i;
+  int & ir{i}; // valid in C++14, but not C++11 since {i} became a temporary instance of an initializer_list<int>, losing the reference to the original i.
+  ```
+  
+- [N3922](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n3922.html)<br/>
+  Previously, auto a{1, 2, 3}, b{1}; was allowed and both variables were of type `initializer_list<int>`.<br/>
+  Now `auto a{1, 2, 3}; is ill-formed and auto b{1};` declares an `int`.<br/>
+  Note that `auto a = {1, 2, 3}, b = {1};` remains unchanged and deduces an `initializer_list<int>`.
+  
+- [N3545](https://wg21.link/n3545)<br/>
+  integral_constant::operator()<br/>
+  Given `integral_constant<int, 123> x;` -> `x()` recovers the value `123`.
+  
+- [N3671](https://wg21.link/n3671)<br/>
+  `equal`, `mismatch`, and `is_permutation` all have 4 iterator variants to specify the 2nd end iterator.
+  
+- [N3302](https://wg21.link/n3302), [N3470](https://wg21.link/n3470), [N3469](https://wg21.link/n3469), [N3471](https://wg21.link/n3471), [N3789](https://wg21.link/n3789)<br/>
+  Make `constexpr` many read-only kind of operations in `complex`, `array`, chrono, `initializer_list`, `tuple`, utility, `forward`, `pair`, functional named operators (`less`, `greater`, `plus`, `minus`, `logical_and`, `bit_and`, et.al.)
+  
+- [N3733](https://wg21.link/n3733)<br/>
+  Removed `gets`
+  
+- [N3924](https://wg21.link/n3924)<br/>
+  Deprecate `rand` and `random_shuffle`(used `rand`), in favor of `shuffle`
 
 ## Acknowledgements
 * [cppreference](http://en.cppreference.com/w/cpp) - especially useful for finding examples and documentation of new library features.
@@ -374,11 +405,11 @@ std::get<std::string>(a_tuple); // error, more than one std::string in a_tuple
 * [Changes between C++11 and C++14](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1319r0.html)
 * And many more SO posts I'm forgetting...
 
-## Author
+## Original Author
 Anthony Calandra
 
 ## Content Contributors
-See: https://github.com/AnthonyCalandra/modern-cpp-features/graphs/contributors
+See: https://github.com/Jonathan-Atkins-Logikos/modern-cpp-features/graphs/contributors
 
 ## License
 MIT
