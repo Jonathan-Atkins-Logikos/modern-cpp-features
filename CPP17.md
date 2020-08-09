@@ -22,6 +22,7 @@ C++17 includes the following new language features:
 - [direct-list-initialization of enums](#direct-list-initialization-of-enums)
 - [fallthrough, nodiscard, maybe_unused attributes](#fallthrough-nodiscard-maybe_unused-attributes)
 - [alignment new](#alignment-new)
+- [\_\_has_include](#__has_include)
 
 C++17 includes the following new library features:
 - [std::variant](#stdvariant)
@@ -40,8 +41,8 @@ C++17 includes the following new library features:
 ### Exception specification is part of type
 [P0012R1](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/p0012r1.html)
 
-Function now include the noexcept specification in their type, resulting in overloading possible based on exceptions or no exceptions only.<br>
-Function pointers and lambdas also follow suit.<br>
+Function now include the noexcept specification in their type, resulting in overloading possible based on exceptions or no exceptions only.  
+Function pointers and lambdas also follow suit.  
 ```c++
 void f() noexcept;
 void f(); //implicitly noexcept(false)
@@ -52,7 +53,7 @@ class methods are implictly noexcept, except any-ctors, dtors, operator=, unless
 ### Copy elision
 [P0135R1](https://wg21.link/p0135r1)
 
-When returning an object into an assignment, the temporary object and copy operation is avoided by creating the assigned object in place of the returned temporary.<br>
+When returning an object into an assignment, the temporary object and copy operation is avoided by creating the assigned object in place of the returned temporary.  
 This optimization is now guaranteed by the standard, whereas before it was an optional optimization in some compilers.
 ```c++
 struct A { int i, j, k; };
@@ -63,6 +64,13 @@ A a = f(); // a is initialized in f() directly
 ```
 
 ### Template argument deduction for class templates
+[P0091R3](https://wg21.link/p0091r3),
+[P0512R0](https://wg21.link/p0512r0),
+[P0433R2](https://wg21.link/p0433r2),
+[P0620R0](https://wg21.link/p0620r0),
+[P0702R2<sup>DR</sup>](https://wg21.link/p0702r1),
+[P0739R0<sup>DR</sup>](https://wg21.link/p0739r0)
+
 Automatic template argument deduction much like how it's done for functions, but now including class constructors.
 ```c++
 template <typename T = float>
@@ -77,6 +85,8 @@ MyContainer c2; // OK MyContainer<float>
 ```
 
 ### Declaring non-type template parameters with auto
+[P0127R2](https://wg21.link/p0127r2)
+
 Following the deduction rules of `auto`, while respecting the non-type template parameter list of allowable types[\*], template arguments can be deduced from the types of its arguments:
 ```c++
 template <auto... seq>
@@ -127,6 +137,8 @@ auto x4 {3.0}; // x4 is double
 ```
 
 ### constexpr lambda
+[P0170R1](https://wg21.link/p0170r1)
+
 Compile-time lambdas using `constexpr`.
 ```c++
 auto identity = [](int n) constexpr { return n; };
@@ -150,6 +162,8 @@ static_assert(addOne(1) == 2);
 ```
 
 ### Lambda capture `this` by value
+[P0018R3](https://wg21.link/p0018r3)
+
 Capturing `this` in a lambda's environment was previously reference-only. An example of where this is problematic is asynchronous code using callbacks that require an object to be available, potentially past its lifetime. `*this` (C++17) will now make a copy of the current object, while `this` (C++11) continues to capture by reference.
 ```c++
 struct MyObj {
@@ -170,6 +184,9 @@ valueRef(); // 321
 ```
 
 ### Inline variables
+[P0386R2](https://wg21.link/p0386r2),
+[P0607R0](https://wg21.link/p0607r0)
+
 The inline specifier can be applied to variables as well as to functions. A variable declared inline has the same semantics as a function declared inline.
 ```c++
 // Disassembly example using compiler explorer.
@@ -209,7 +226,10 @@ namespace A::B::C {
 ```
 
 ### Structured bindings
-A proposal for de-structuring initialization, that would allow writing `auto [ x, y, z ] = expr;` where the type of `expr` was a tuple-like object, whose elements would be bound to the variables `x`, `y`, and `z` (which this construct declares). _Tuple-like objects_ include `std::tuple`, `std::pair`, `std::array`, and aggregate structures.
+[P0217R3](https://wg21.link/p0217r3),
+[P0615R0](https://wg21.link/p0615r0)
+
+A proposal for de-structuring initialization, that would allow writing `auto [ x, y, z ] = expr;` where the type of `expr` was a tuple-like object, whose elements would be bound to the variables `x`, `y`, and `z` (which this construct declares). _Tuple-like objects_ include `std::tuple`, `std::pair`, `std::array`, and all-public aggregate structures, and any user-defined types that follow a get<N> protocol.
 ```c++
 using Coordinate = std::pair<int, int>;
 Coordinate origin() {
@@ -234,6 +254,8 @@ for (const auto& [key, value] : mapping) {
 ```
 
 ### Selection statements with initializer
+[P0305R1](https://wg21.link/p0305r1)
+
 New versions of the `if` and `switch` statements which simplify common code patterns and help users keep scopes tight.
 ```c++
 {
@@ -259,6 +281,8 @@ switch (Foo gadget(args); auto s = gadget.status()) {
 ```
 
 ### constexpr if
+[P0292R2](https://wg21.link/p0292r2)
+
 Write code that is instantiated depending on a compile-time condition.
 ```c++
 template <typename T>
@@ -304,6 +328,10 @@ byte e = byte{256}; // ERROR
 ```
 
 ### fallthrough, nodiscard, maybe_unused attributes
+[P0188R1 `[[falthrough]]`](https://wg21.link/p0188r1),
+[P0189R1 `[[nodiscard]]`](https://wg21.link/p0189r1).
+[P0212R1 `[[maybe_unused]]`](https://wg21.link/p0212r1)
+
 C++17 introduces three new attributes: `[[fallthrough]]`, `[[nodiscard]]` and `[[maybe_unused]]`.
 * `[[fallthrough]]` indicates to the compiler that falling through in a switch statement is intended behavior.
 ```c++
@@ -352,7 +380,7 @@ void my_callback(std::string msg, [[maybe_unused]] bool error) {
 ### Alignment new
 [P0035R4](https://wg21.link/p0035r4)
 
-Adds alignment beyond the standard alignment via `new` and `delete` with alignment values as `std::align_val_t`.<br/>
+Adds alignment beyond the standard alignment via `new` and `delete` with alignment values as `std::align_val_t`.  
 Such as:
 ```c++
 void* operator new(std::size_t size, std::align_val_t alignment);
@@ -360,6 +388,23 @@ void* operator new[](std::size_t size, std::align_val_t alignment);
 
 void operator delete(void* ptr, std::align_val_t alignment) noexcept;
 void operator delete[](void* ptr, std::align_val_t alignment) noexcept;
+```
+
+### \_\_has_include
+[P0061R1](https://wg21.link/p0061r1)
+
+preprocessor expression that can enable conditional inclusion or other conditional preprocessing.
+```c++
+#if __has_include(<optional>)
+#  include <optional>
+#  define have_optional 1
+#elif __has_include(<experimental/optional>)
+#  include <experimental/optional>
+#  define have_optional 1
+#  define experimental_optional 1
+#else
+#  define have_optional 0
+#endif
 ```
 
 ## C++17 Library Features
