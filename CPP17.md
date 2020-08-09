@@ -18,6 +18,7 @@ C++17 includes the following new language features:
 - [selection statements with initializer](#selection-statements-with-initializer)
 - [constexpr if](#constexpr-if)
 - [utf-8 character literals](#utf-8-character-literals)
+- [hex float literals](#hex-float-literals)
 - [direct-list-initialization of enums](#direct-list-initialization-of-enums)
 - [fallthrough, nodiscard, maybe_unused attributes](#fallthrough-nodiscard-maybe_unused-attributes)
 - [alignment new](#alignment-new)
@@ -273,9 +274,20 @@ static_assert(isIntegral<S>() == false);
 ```
 
 ### UTF-8 character literals
+[N4267](https://wg21.link/n4267)
+
 A character literal that begins with `u8` is a character literal of type `char`. The value of a UTF-8 character literal is equal to its ISO 10646 code point value.
 ```c++
 char x = u8'x';
+```
+
+### Hex float literals
+[P0245C1](https://wg21.link/p0245r1)
+
+Floating point literals with hexadecimal base and decimal exponent:
+```c++
+0xC.68p+2
+0x1.P-126
 ```
 
 ### Direct list initialization of enums
