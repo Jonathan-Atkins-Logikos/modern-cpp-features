@@ -4,6 +4,8 @@
 Many of these descriptions and examples come from various resources (see [Acknowledgements](#acknowledgements) section), summarized in my own words.
 
 C++17 includes the following new language features:
+- [exception specification is part of type](#exception-specification-is-part-of-type)
+- [copy elision](#copy-elision)
 - [template argument deduction for class templates](#template-argument-deduction-for-class-templates)
 - [declaring non-type template parameters with auto](#declaring-non-type-template-parameters-with-auto)
 - [folding expressions](#folding-expressions)
@@ -32,6 +34,31 @@ C++17 includes the following new library features:
 - [parallel algorithms](#parallel-algorithms)
 
 ## C++17 Language Features
+
+### Exception specification is part of type
+[P0012R1](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/p0012r1.html)
+
+Function now include the noexcept specification in their type, resulting in overloading possible based on exceptions or no exceptions only.<br>
+Function pointers and lambdas also follow suit.<br>
+```c++
+void f() noexcept;
+void f(); //implicitly noexcept(false)
+void (*fptr)() noexecpt = &f; // picks f() noexcept
+```
+class methods are implictly noexcept, except any-ctors, dtors, operator=, unless they contain potentially-throwing operations.
+
+### Copy elision
+[P0135R1](https://wg21.link/p0135r1)
+
+When returning an object into an assignment, the temporary object and copy operation is avoided by creating the assigned object in place of the returned temporary.<br>
+This optimization is now guaranteed by the standard, whereas before it was an optional optimization in some compilers.
+```c++
+struct A { int i, j, k; };
+A f() {
+  return A{1,2,3};
+}
+A a = f(); // a is initialized in f() directly
+```
 
 ### Template argument deduction for class templates
 Automatic template argument deduction much like how it's done for functions, but now including class constructors.
