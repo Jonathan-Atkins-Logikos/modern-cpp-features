@@ -20,6 +20,7 @@ C++17 includes the following new language features:
 - [utf-8 character literals](#utf-8-character-literals)
 - [direct-list-initialization of enums](#direct-list-initialization-of-enums)
 - [fallthrough, nodiscard, maybe_unused attributes](#fallthrough-nodiscard-maybe_unused-attributes)
+- [alignment new](#alignment-new)
 
 C++17 includes the following new library features:
 - [std::variant](#stdvariant)
@@ -331,6 +332,19 @@ void my_callback(std::string msg, [[maybe_unused]] bool error) {
   // Don't care if `msg` is an error message, just log it.
   log(msg);
 }
+```
+
+### Alignment new
+[P0035R4](https://wg21.link/p0035r4)
+
+Adds alignment beyond the standard alignment via `new` and `delete` with alignment values as `std::align_val_t`.<br/>
+Such as:
+```c++
+void* operator new(std::size_t size, std::align_val_t alignment);
+void* operator new[](std::size_t size, std::align_val_t alignment);
+
+void operator delete(void* ptr, std::align_val_t alignment) noexcept;
+void operator delete[](void* ptr, std::align_val_t alignment) noexcept;
 ```
 
 ## C++17 Library Features
