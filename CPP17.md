@@ -618,6 +618,7 @@ Added from ISO10 into `<cmath>` in the `std` namespace, without suffix for `doub
 | `sph_neumann`    | spherical Neumann functions                       |
 
 ## Acknowledgements
+* [Changes between C++14 and C++17](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0636r2.html) - more complete site used to complete this one
 * [cppreference](http://en.cppreference.com/w/cpp) - especially useful for finding examples and documentation of new library features.
 * [C++ Rvalue References Explained](http://thbecker.net/articles/rvalue_references/section_01.html) - a great introduction I used to understand rvalue references, perfect forwarding, and move semantics.
 * [clang](http://clang.llvm.org/cxx_status.html) and [gcc](https://gcc.gnu.org/projects/cxx-status.html)'s standards support pages. Also included here are the proposals for language/library features that I used to help find a description of, what it's meant to fix, and some examples.
