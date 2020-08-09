@@ -516,6 +516,8 @@ if (std::filesystem::exists(bigFilePath)) {
 ```
 
 ### std::byte
+[P0298R3](https://wg21.link/p0298r3)
+
 The new `std::byte` type provides a standard way of representing data as a byte. Benefits of using `std::byte` over `char` or `unsigned char` is that it is not a character type, and is also not an arithmetic type; while the only operator overloads available are bitwise operations.
 ```c++
 std::byte a {0};
@@ -529,7 +531,8 @@ Note that `std::byte` is simply an enum, and braced initialization of enums beco
 ### std::launder
 [P0137R1](https://wg21.link/p0137r1)
 
-**Expert use only!**  
+**Expert use only!**
+
 Obtains a pointer to the object located at the address represented by p.  Used as an optimization barrier.  
 May be useful for obtaining pointers to objects created by placement new from a pointer to an object providing storage for that object, as in memory pools.
 
