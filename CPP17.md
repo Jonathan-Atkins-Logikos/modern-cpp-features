@@ -92,6 +92,9 @@ auto seq2 = my_integer_sequence<0, 1, 2>();
 \* - For example, you cannot use a `double` as a template parameter type, which also makes this an invalid deduction using `auto`.
 
 ### Folding expressions
+[N4295](https://wg21.link/n4295),
+[P0036R0](https://wg21.link/p0036r0)
+
 A fold expression performs a fold of a template parameter pack over a binary operator.
 * An expression of the form `(... op e)` or `(e op ...)`, where `op` is a fold-operator and `e` is an unexpanded parameter pack, are called _unary folds_.
 * An expression of the form `(e1 op ... op e2)`, where `op` are fold-operators, is called a _binary fold_. Either `e1` or `e2` is an unexpanded parameter pack, but not both.
