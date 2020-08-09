@@ -591,28 +591,31 @@ auto result2 = std::sort(std::execution::seq, std::begin(longVector), std::end(l
 ### Mathematical special functions
 [P0226R1](https://wg21.link/p0226r1)
 
-Added from ISO10 into `<cmath>` in the `std` namespace, without suffix for `double`, with suffix `f` for float, or `l` for long double:  
-- `assoc_laguerre`  associated Laguerre polynomials
-- assoc_legendre`  associated Legendre polynomials
-- `beta`  beta function
-- `comp_ellint_1`  (complete) elliptic integral of the first kind
-- `comp_ellint_2`  (complete) elliptic integral of the second kind
-- `comp_ellint_3`  (complete) elliptic integral of the third kind
-- `cyl_bessel_i`  regular modified cylindrical Bessel functions
-- `cyl_bessel_j`  cylindrical Bessel functions (of the first kind)
-- `cyl_bessel_k`  irregular modified cylindrical Bessel functions
-- `cyl_neumann`  cylindrical Neumann functions
-- `ellint_1`  (incomplete) elliptic integral of the first kind
-- `ellint_2`  (incomplete) elliptic integral of the second kind
-- `ellint_3`  (incomplete) elliptic integral of the third kind
-- `expint`  exponential integral
-- `hermite`  Hermite polynomials
-- `legendre`  Legendre polynomials
-- `laguerre`  Laguerre polynomials
-- `riemann_zeta`  Riemann zeta function
-- `sph_bessel`  spherical Bessel functions (of the first kind)
-- `sph_legendre`  spherical associated Legendre functions
-- `sph_neumann`  spherical Neumann functions
+Added from ISO10 into `<cmath>` in the `std` namespace, without suffix for `double`, with suffix `f` for float, or `l` for long double:
+
+| std::name        | description                                       |
+| ---------------- | ------------------------------------------------- |
+| `assoc_laguerre` | associated Laguerre polynomials                   |
+| `assoc_legendre` | associated Legendre polynomials                   |
+| `beta`           | beta function                                     |
+| `comp_ellint_1`  | (complete) elliptic integral of the first kind    |
+| `comp_ellint_2`  | (complete) elliptic integral of the second kind   |
+| `comp_ellint_3`  | (complete) elliptic integral of the third kind    |
+| `cyl_bessel_i`   | regular modified cylindrical Bessel functions     |
+| `cyl_bessel_j`   | cylindrical Bessel functions (of the first kind)  |
+| `cyl_bessel_k`   | irregular modified cylindrical Bessel functions   |
+| `cyl_neumann`    | cylindrical Neumann functions                     |
+| `ellint_1`       | (incomplete) elliptic integral of the first kind  |
+| `ellint_2`       | (incomplete) elliptic integral of the second kind |
+| `ellint_3`       | (incomplete) elliptic integral of the third kind  |
+| `expint`         | exponential integral                              |
+| `hermite`        | Hermite polynomials                               |
+| `legendre`       | Legendre polynomials                              |
+| `laguerre`       | Laguerre polynomials                              |
+| `riemann_zeta`   | Riemann zeta function                             |
+| `sph_bessel`     | spherical Bessel functions (of the first kind)    |
+| `sph_legendre`   | spherical associated Legendre functions           |
+| `sph_neumann`    | spherical Neumann functions                       |
 
 ## Acknowledgements
 * [cppreference](http://en.cppreference.com/w/cpp) - especially useful for finding examples and documentation of new library features.
