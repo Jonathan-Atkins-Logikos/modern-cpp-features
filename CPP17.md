@@ -33,6 +33,7 @@ C++17 includes the following new library features:
 - [std::apply](#stdapply)
 - [std::filesystem](#stdfilesystem)
 - [std::byte](#stdbyte)
+- [std::launder](#stdlaunder)
 - [splicing for maps and sets](#splicing-for-maps-and-sets)
 - [parallel algorithms](#parallel-algorithms)
 
@@ -524,6 +525,13 @@ std::byte c = a & b;
 int j = std::to_integer<int>(c); // 0
 ```
 Note that `std::byte` is simply an enum, and braced initialization of enums become possible thanks to [direct-list-initialization of enums](#direct-list-initialization-of-enums).
+
+### std::launder
+[P0137R1](https://wg21.link/p0137r1)
+
+**Expert use only!**  
+Obtains a pointer to the object located at the address represented by p.  Used as an optimization barrier.  
+May be useful for obtaining pointers to objects created by placement new from a pointer to an object providing storage for that object, as in memory pools.
 
 ### Splicing for maps and sets
 Moving nodes and merging containers without the overhead of expensive copies, moves, or heap allocations/deallocations.
