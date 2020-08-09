@@ -36,7 +36,7 @@ C++17 includes the following new library features:
 - [std::launder](#stdlaunder)
 - [splicing for maps and sets](#splicing-for-maps-and-sets)
 - [parallel algorithms](#parallel-algorithms)
-- [mathematical special functions](mathematical-special-functions)
+- [mathematical special functions](#mathematical-special-functions)
 
 ## C++17 Language Features
 
@@ -501,6 +501,14 @@ std::apply(add, std::make_tuple(1, 2)); // == 3
 ```
 
 ### std::filesystem
+[P0218R0](https://wg21.link/p0218r0),
+[P0219R1](https://wg21.link/p0219r1),
+[P0317R1](https://wg21.link/p0317r1),
+[P0392R0](https://wg21.link/p0392r0),
+[P0430R2](https://wg21.link/p0430r2),
+[P0492R2](https://wg21.link/p0492r2),
+[LWG 2956<sup>DR</sup>](https://wg21.link/lwg2956)
+
 The new `std::filesystem` library provides a standard way to manipulate files, directories, and paths in a filesystem.
 
 Here, a big file is copied to a temporary path if there is available space:
@@ -578,6 +586,17 @@ m.insert(std::move(e));
 ```
 
 ### Parallel algorithms
+[P0024R2](https://wg21.link/p0024r2),
+[P0336R1](https://wg21.link/p0336r1),
+[P0394R4](https://wg21.link/p0394r4),
+[P0452R1](https://wg21.link/p0452r1),
+[P0467R2](https://wg21.link/p0467r2),
+[P0502R0](https://wg21.link/p0502r0),
+[P0518R1](https://wg21.link/p0518r1),
+[P0523R1](https://wg21.link/p0523r1),
+[P0574R1](https://wg21.link/p0574r1),
+[P0623R0](https://wg21.link/p0623r0)
+
 Many of the STL algorithms, such as the `copy`, `find` and `sort` methods, started to support the *parallel execution policies*: `seq`, `par` and `par_unseq` which translate to "sequentially", "parallel" and "parallel unsequenced".
 
 ```c++
@@ -587,6 +606,17 @@ auto result1 = std::find(std::execution::par, std::begin(longVector), std::end(l
 // Sort elements using sequential execution policy
 auto result2 = std::sort(std::execution::seq, std::begin(longVector), std::end(longVector));
 ```
+
+### New (parallel) algorithms
+[P0024R2](https://wg21.link/p0024r2)
+
+| std::name        | description                                       |
+| ---------------- | ------------------------------------------------- |
+| `reduce` | parallel sum or other binary operation |
+| `exclusive_scan` | outputs a running sum or other operation, excluding the current element |
+| `inclusive_scan` | outputs a running sum or other operation, including the current element |
+| `transform_reduce` | parallelized version of `inner_product` |
+
 
 ### Mathematical special functions
 [P0226R1](https://wg21.link/p0226r1)
