@@ -615,8 +615,9 @@ auto result2 = std::sort(std::execution::seq, std::begin(longVector), std::end(l
 | `reduce` | parallel sum or other binary operation |
 | `exclusive_scan` | outputs a running sum or other operation, excluding the current element |
 | `inclusive_scan` | outputs a running sum or other operation, including the current element |
-| `transform_reduce` | parallelized version of `inner_product` |
-
+| `transform_reduce` | parallelized version of `inner_product` or other operations |
+| `transform_exclusive_scan` | like `exclusive_scan` but with a preceeding unary operation |
+| `transform_inclusive_scan` | like `inclusive_scan` but with a preceeding unary operation |
 
 ### Mathematical special functions
 [P0226R1](https://wg21.link/p0226r1)
