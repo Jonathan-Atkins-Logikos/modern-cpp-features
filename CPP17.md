@@ -35,6 +35,7 @@ C++17 includes the following new library features:
 - [std::byte](#stdbyte)
 - [std::launder](#stdlaunder)
 - [splicing for maps and sets](#splicing-for-maps-and-sets)
+- [std::sample](#stdsample)
 - [parallel algorithms](#parallel-algorithms)
 - [new (parallel) algorithms](#new-parallel-algorithms)
 - [mathematical special functions](#mathematical-special-functions)
@@ -413,6 +414,13 @@ preprocessor expression that can enable conditional inclusion or other condition
 ## C++17 Library Features
 
 ### std::variant
+[P0088R3](https://wg21.link/p0088r3),
+[P0393R3](https://wg21.link/p0393r3),
+[P0032R3](https://wg21.link/p0032r3),
+[P0504R0](https://wg21.link/p0504r0),
+[P0510R0](https://wg21.link/p0510r0),
+[LWG 2901<sup>DR</sup>](https://wg21.link/lwg2901)
+
 The class template `std::variant` represents a type-safe `union`. An instance of `std::variant` at any given time holds a value of one of its alternative types (it's also possible for it to be valueless).
 ```c++
 std::variant<int, double> v{ 12 };
@@ -424,13 +432,18 @@ std::get<1>(v); // == 12.0
 ```
 
 ### std::optional
+[P0220R1](https://wg21.link/p0220r1),
+[P0307R2](https://wg21.link/p0307r2),
+[P0032R3](https://wg21.link/p0032r3),
+[P0504R0](https://wg21.link/p0504r0)
+
 The class template `std::optional` manages an optional contained value, i.e. a value that may or may not be present. A common use case for optional is the return value of a function that may fail.
 ```c++
 std::optional<std::string> create(bool b) {
   if (b) {
     return "Godzilla";
   } else {
-    return {};
+    return {}; // or std::nullopt
   }
 }
 
@@ -443,16 +456,25 @@ if (auto str = create(true)) {
 ```
 
 ### std::any
+[P0220R1](https://wg21.link/p0220r1),
+[P0032R3](https://wg21.link/p0032r3),
+[P0504R0](https://wg21.link/p0504r0)
+
 A type-safe container for single values of any type.
 ```c++
 std::any x {5};
 x.has_value() // == true
 std::any_cast<int>(x) // == 5
-std::any_cast<int&>(x) = 10;
+std::any_cast<int&>(x) = 10; // reference to data in a
 std::any_cast<int>(x) // == 10
+auto cmplx = std::make_any<std::complex<double>>(0.1, 2.3);
 ```
 
 ### std::string_view
+[P0220R1](https://wg21.link/p0220r1),
+[P0254R2](https://wg21.link/p0254r2),
+[P0403R1](https://wg21.link/p0403r1)
+
 A non-owning reference to a string. Useful for providing an abstraction on top of strings (e.g. for parsing).
 ```c++
 // Regular strings.
@@ -584,6 +606,16 @@ auto e = m.extract(2);
 e.key() = 4;
 m.insert(std::move(e));
 // m == { { 1, "one" }, { 3, "three" }, { 4, "two" } }
+```
+
+### std::sample
+[P0220R1](https://wg21.link/p0220r1)
+
+Samples at most n elements uniformly random selected from a range, into an iterator.
+```c++
+std::string in = "abcdegh", out;
+std::sample(in.begin(), in.end(), std::back_inserter(out), 5, std::mt19937{std::random_device{}()});
+// example: out == "abcfg"
 ```
 
 ### Parallel algorithms
