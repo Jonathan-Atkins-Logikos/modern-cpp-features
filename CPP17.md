@@ -36,6 +36,7 @@ C++17 includes the following new library features:
 - [std::launder](#stdlaunder)
 - [splicing for maps and sets](#splicing-for-maps-and-sets)
 - [parallel algorithms](#parallel-algorithms)
+- [new (parallel) algorithms](#new-parallel-algorithms)
 - [mathematical special functions](#mathematical-special-functions)
 
 ## C++17 Language Features
